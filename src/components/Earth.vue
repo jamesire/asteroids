@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'HomePage',
+  name: 'Earth',
   props: {
     msg: String
   }
@@ -23,6 +23,8 @@ export default {
   width: 100%;
   height: 100%;
   margin: 0;
+  top: 50%;
+  left: 25%;
   border-radius: 50%;
   position: relative;
   -webkit-transform-style: preserve-3d;
