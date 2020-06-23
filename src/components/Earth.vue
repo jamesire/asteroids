@@ -20,8 +20,8 @@ export default {
 <style scoped>
 .ball {
   display: inline-block;
-  width: 100%;
-  height: 100%;
+  width: 637.1px;
+  height: 637.1px;
   margin: 0;
   top: 50%;
   left: 25%;
@@ -91,11 +91,7 @@ body {
   -ms-perspective: 1200px;
   -o-perspective: 1200px;
   perspective: 1200px;
-  -webkit-perspective-origin: 50% 50%;
-  -moz-perspective-origin: 50% 50%;
-  -ms-perspective-origin: 50% 50%;
-  -o-perspective-origin: 50% 50%;
-  perspective-origin: 50% 50%;
+
 }
 
 @-moz-keyframes move-map {

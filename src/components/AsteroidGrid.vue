@@ -3,8 +3,11 @@
     <div class="card"> 
         <h2 class="card-header">{{header}}</h2> 
         <div class="m-2"> 
-            From: <Datepicker :value="fromDate" name="fromDate" />
-            To: <Datepicker :value="toDate" name="toDate" />
+            <div class="datepicker-line">From: <Datepicker class="float-right" style="display:inline-block;" v-model="fromDate" name="fromDate" /></div>
+            <br />
+            <div class="datepicker-line">To: <Datepicker class="float-right" style="display:inline-block;" v-model="toDate" name="toDate" /></div>
+            <br />
+            <button @click="$emit('fetchAsteroidsByDate', fromDate, toDate)">Submit</button>
         </div> 
         <div class="asteroid-container">
             <span class="asteroid-iterator" v-for="(asteroid, i) in asteroids" :key="i">
@@ -95,6 +98,11 @@
     }
     .neo-list-enter-active, .neo-list-leave-active {
         transition: all 1s linear;
+    }
+
+    .datepicker-line {
+        float: left;
+        margin-top: 10px;
     }
 
     .asteroid-name {
