@@ -9,7 +9,7 @@
             <br />
             <button @click="$emit('fetchAsteroidsByDate', fromDate, toDate)">Submit</button>
         </div> 
-        <div class="asteroid-container">
+        <div class="asteroid-container" v-cloak>
             <span class="asteroid-iterator" v-for="(asteroid, i) in asteroids" :key="i">
                 <div :class="asteroid.open ? 'asteroid-list open' : 'asteroid-list'"  @click="$emit('toggleAccordian', i)">
                     <div class="asteroid-name">{{asteroid.name}}</div>
@@ -81,6 +81,9 @@
 </script>
 
 <style scoped>
+    [v-cloak] {
+        display: none;
+    }
     .highlight {
         border: solid 3px red;
         color: red;
@@ -103,6 +106,12 @@
     .datepicker-line {
         float: left;
         margin-top: 10px;
+    }
+
+    .asteroid-container {
+        height: 300px;
+        max-height: 100%;
+        overflow-y: auto;
     }
 
     .asteroid-name {

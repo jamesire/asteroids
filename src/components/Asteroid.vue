@@ -14,8 +14,8 @@ export default {
   },
   methods: {
       setDimensions: function(h, w) {
-          this.h = h * 10;
-          this.w = w * 10;
+          this.h = h * 2;
+          this.w = w * 2;
       }
   }
 }
@@ -29,9 +29,12 @@ export default {
     position: absolute;
     top: 50%;
     left: 60%;
-    background-image: url('../resources/octagon.svg');
-    background-position: center;
-    background-repeat: no-repeat;
+    box-shadow: 0px 0px 30px #fff;
+    height: 25px;
+    width: 25px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
     animation:spin 4s linear infinite;
 }
 

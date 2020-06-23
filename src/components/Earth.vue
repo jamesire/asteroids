@@ -1,10 +1,9 @@
 <template>
- <div class="stage">
+ <!--<div class="stage">-->
     <figure class="ball">
         <div class="shadow">
         </div>
     </figure>
-  </div>
 </template>
 
 <script>
@@ -19,14 +18,14 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .ball {
+  background-color: white;
   display: inline-block;
-  width: 637.1px;
-  height: 637.1px;
-  margin: 0;
-  top: 50%;
-  left: 25%;
+  width: 2548.4px;
+  height: 2548.4px;
+  bottom: -1274.2px;
+  left: -1274.2px;
   border-radius: 50%;
-  position: relative;
+  position: absolute;
   -webkit-transform-style: preserve-3d;
   background: url('http://hop.ie/balls/images/world-map-one-color.png') repeat-x;
   background-size: auto 100%;
@@ -35,18 +34,16 @@ export default {
   -o-animation: move-map 30s infinite linear;
   -ms-animation: move-map 30s infinite linear;
   animation: move-map 30s infinite linear;
+  box-shadow: 0px 0px 30px #fff;
 }
 
 .ball:before {
   content: "";
   position: absolute;
-  top: 0%;
-  left: 0%;
   width: 100%;
   height: 100%;
   border-radius: 50%;
   box-shadow: -40px 10px 70px 10px rgba(0,0,0,0.5) inset;
-  z-index: 2;
 }
 
 .ball:after {
@@ -55,7 +52,6 @@ export default {
   border-radius: 50%;
   width: 100%;
   height: 100%;
-  top: 0;
   left: 0;
   -webkit-filter: blur(0);
   opacity: 0.3;
@@ -72,26 +68,11 @@ export default {
   -ms-transform: rotateX(90deg) translateZ(-200px);
   -o-transform: rotateX(90deg) translateZ(-200px);
   transform: rotateX(90deg) translateZ(-200px);
-  z-index: -1;
 }
 body {
   width: 300px;
-  margin: 20px auto;
   background: linear-gradient(to bottom, rgba(100, 100, 100, 0.2) 0%, rgba(255, 255, 255, 0.5) 40%, #ffffff 100%);
   background-repeat: no-repeat;
-}
-
-.stage {
-  width: 300px;
-  height: 300px;
-  display: inline-block;
-  margin: 20px;
-  -webkit-perspective: 1200px;
-  -moz-perspective: 1200px;
-  -ms-perspective: 1200px;
-  -o-perspective: 1200px;
-  perspective: 1200px;
-
 }
 
 @-moz-keyframes move-map {
