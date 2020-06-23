@@ -1,22 +1,27 @@
 <template>
 <div class="float-right">
     <div class="card"> 
-        <h2 class="card-header">{{header}}</h2> 
-        <div class="m-2"> 
-            <div class="datepicker-line">From: <Datepicker class="float-right" style="display:inline-block;" v-model="fromDate" name="fromDate" /></div>
-            <br />
-            <div class="datepicker-line">To: <Datepicker class="float-right" style="display:inline-block;" v-model="toDate" name="toDate" /></div>
-            <br />
-            <button @click="$emit('fetchAsteroidsByDate', fromDate, toDate)">Submit</button>
-        </div> 
+        <h2 class="card-header">Near-Earth Objects</h2> 
+        <div class="card-body">
+            Magnify Asteroids:
+            <div class="d-flex justify-content-center">
+                <span class="font-weight-bold mr-2"><i class="fa fa-minus" aria-hidden="true"></i></span>
+                <form class="range-field">
+                    <input class="border-0" type="range" min="1" max="3" />
+                </form>
+                <span class="font-weight-bold ml-2"><i class="fa fa-plus" aria-hidden="true"></i></span>
+            </div>
+        </div>
         <div class="asteroid-container" v-cloak>
             <span class="asteroid-iterator" v-for="(asteroid, i) in asteroids" :key="i">
                 <div :class="asteroid.open ? 'asteroid-list open' : 'asteroid-list'"  @click="$emit('toggleAccordian', i)">
                     <div class="asteroid-name">{{asteroid.name}}</div>
                     <div class="asteroid-detail">
-                        <b>Diameter:</b> {{asteroid.estimated_diameter.kilometers.estimated_diameter_max}}km x {{asteroid.estimated_diameter.kilometers.estimated_diameter_min}}km
+                        <b>Diameter: </b>{{asteroid.estimated_diameter.kilometers.estimated_diameter_max}}km x {{asteroid.estimated_diameter.kilometers.estimated_diameter_min}}km
                             <br />
-                        <b>Approach Date:</b> {{getCloseApproachDate(asteroid)}}
+                        <b>Approach Date: </b>{{getCloseApproachDate(asteroid)}}
+                            <!-- <br />
+                        <b>Distance: </b>{{getDistance(asteroid)}}km -->
                     </div>
                 </div>
             </span>
@@ -26,8 +31,6 @@
 </template>
 
 <script>
-    import Datepicker from 'vuejs-datepicker'
-
     export default {
         props: ['asteroids', 'header'],
         data: function() {
@@ -39,7 +42,6 @@
             }
         },  
         components: {
-            Datepicker
         },
         computed: {
             numAsteroids: function() {
@@ -56,7 +58,7 @@
                     return a.miles - b.miles;        
                 });
                 return sortedNeos[0].name;
-            }    
+            }
         },  
         methods: {
             getCloseApproachDate: function (a) {
@@ -75,6 +77,15 @@
             },
             isMissingData: function (a) {
                 return a.close_approach_data.length == 0;                    
+            },
+            getDistance: function(asteroid) {
+                if(asteroid.close_approach_data) {
+                    var distanceInKm = asteroid.close_approach_data[0].miss_distance.kilometers;
+                    var roundedDistance = Number((distanceInKm).toFixed(3));
+
+                    return roundedDistance;
+                }
+                return "N/A";
             }
         }
     }

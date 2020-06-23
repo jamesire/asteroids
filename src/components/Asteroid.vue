@@ -29,7 +29,7 @@ export default {
     position: absolute;
     top: 50%;
     left: 60%;
-    box-shadow: 0px 0px 30px #fff;
+    box-shadow: 0px 0px 30px white;
     height: 25px;
     width: 25px;
     background-color: #bbb;

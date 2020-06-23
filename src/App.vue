@@ -2,7 +2,7 @@
   <div id="app">
       <Earth />
       <Asteroid ref="asteroid" />
-      <AsteroidGrid :asteroids="asteroids" @fetchAsteroidsByDate="fetchAsteroidsByDate" @toggleAccordian="toggleAccordian" header="Near-Earth Objects" />
+      <AsteroidGrid :asteroids="asteroids" @toggleAccordian="toggleAccordian" />
   </div>
 </template>
 
@@ -31,19 +31,9 @@ export default {
   },
   methods: {
       fetchAsteroids: function () {
-          var url = 'https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=' + process.env.VUE_APP_API_KEY;
-          axios.get(url)
-              .then(res => {                                       
-                  this.asteroids = res.data.near_earth_objects;
-                  this.asteroids.forEach(function (a) {
-                    a.open = false;
+          var startDate = moment().subtract(7, 'days').calendar();
+          var endDate = new Date();
 
-                    a.estimated_diameter.kilometers.estimated_diameter_max = Number((a.estimated_diameter.kilometers.estimated_diameter_max).toFixed(3))
-                    a.estimated_diameter.kilometers.estimated_diameter_min = Number((a.estimated_diameter.kilometers.estimated_diameter_min).toFixed(3))
-                  })
-              });
-      },
-      fetchAsteroidsByDate: function (startDate, endDate) {
           startDate = moment(String(startDate)).format('YYYY-MM-DD')
           endDate = moment(String(endDate)).format('YYYY-MM-DD')
 
