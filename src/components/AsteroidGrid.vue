@@ -1,27 +1,34 @@
 <template>
 <div class="float-right">
-    <div class="card"> 
+    <div class="card" style="width: 400px"> 
         <h2 class="card-header">Near-Earth Objects</h2> 
-        <div class="card-body">
-            Magnify Asteroids:
-            <div class="d-flex justify-content-center">
-                <span class="font-weight-bold mr-2"><i class="fa fa-minus" aria-hidden="true"></i></span>
-                <form class="range-field">
-                    <input class="border-0" type="range" min="1" max="3" />
-                </form>
-                <span class="font-weight-bold ml-2"><i class="fa fa-plus" aria-hidden="true"></i></span>
-            </div>
+        <small class="card-body border-bottom font-italic text-wrap">
+            This application roughly compares asteroids that have passed near Earth over the past <b>seven</b> days to Earth's size. Clicking an asteroid's name will show it's <b>size</b>, the <b>date</b> it was nearest to Earth, and the <b>distance</b> it was from Earth on that date.
+            <br />
+            <br />
+            If you're having trouble seeing the selected asteroid, use the <b>Magnify Asteroid</b> dropdown below - some of them are quite small. This application is intended for desktop use only.
+        </small>
+        <div class="card-body border-bottom">
+            <b-dropdown id="dropdown-1" text="Magnify Asteroid" class="m-md-2">
+                <b-dropdown-item @click="$emit('magnifyAsteroids', 1)">x1</b-dropdown-item>
+                <b-dropdown-item @click="$emit('magnifyAsteroids', 10)">x10</b-dropdown-item>
+                <b-dropdown-item @click="$emit('magnifyAsteroids', 20)">x20</b-dropdown-item>
+                <b-dropdown-item @click="$emit('magnifyAsteroids', 50)">x50</b-dropdown-item>
+                <b-dropdown-item @click="$emit('magnifyAsteroids', 100)">x100</b-dropdown-item>
+            </b-dropdown>
+        <div>
+    </div>
         </div>
         <div class="asteroid-container" v-cloak>
             <span class="asteroid-iterator" v-for="(asteroid, i) in asteroids" :key="i">
                 <div :class="asteroid.open ? 'asteroid-list open' : 'asteroid-list'"  @click="$emit('toggleAccordian', i)">
                     <div class="asteroid-name">{{asteroid.name}}</div>
                     <div class="asteroid-detail">
-                        <b>Diameter: </b>{{asteroid.estimated_diameter.kilometers.estimated_diameter_max}}km x {{asteroid.estimated_diameter.kilometers.estimated_diameter_min}}km
+                        <b>Size: </b>{{asteroid.estimated_diameter.kilometers.estimated_diameter_max}}km x {{asteroid.estimated_diameter.kilometers.estimated_diameter_min}}km
                             <br />
                         <b>Approach Date: </b>{{getCloseApproachDate(asteroid)}}
-                            <!-- <br />
-                        <b>Distance: </b>{{getDistance(asteroid)}}km -->
+                            <br />
+                        <b>Distance: </b>{{getDistance(asteroid)}}km
                     </div>
                 </div>
             </span>
@@ -35,14 +42,9 @@
         props: ['asteroids', 'header'],
         data: function() {
             return {            
-                showSummary: true,
-                fromDate: new Date(),
-                toDate: null,
                 selectedAstroid: null,
             }
         },  
-        components: {
-        },
         computed: {
             numAsteroids: function() {
                 return this.asteroids.length;
@@ -81,7 +83,7 @@
             getDistance: function(asteroid) {
                 if(asteroid.close_approach_data) {
                     var distanceInKm = asteroid.close_approach_data[0].miss_distance.kilometers;
-                    var roundedDistance = Number((distanceInKm).toFixed(3));
+                    var roundedDistance = (parseFloat(distanceInKm)).toFixed(3);
 
                     return roundedDistance;
                 }
@@ -95,6 +97,7 @@
     [v-cloak] {
         display: none;
     }
+    
     .highlight {
         border: solid 3px red;
         color: red;
@@ -112,11 +115,6 @@
     }
     .neo-list-enter-active, .neo-list-leave-active {
         transition: all 1s linear;
-    }
-
-    .datepicker-line {
-        float: left;
-        margin-top: 10px;
     }
 
     .asteroid-container {
@@ -139,6 +137,7 @@
         margin: 5px auto;
         border-radius: 8px;
         max-width: 700px;
+        cursor: pointer;
     }
 
     .asteroid-list .asteroid-name{

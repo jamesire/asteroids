@@ -1,5 +1,5 @@
 <template>
-    <div class="dot" :style="'height: ' + h + 'px; width: ' + w + 'px; background-size: ' + w + 'px ' + h + 'px;'">
+    <div class="ellipse" :style="'height: ' + magnifiedH + 'px; width: ' + magnifiedW + 'px;  background-size: ' + magnifiedH + 'px ' + magnifiedW + 'px;'">
     </div>
 </template>
 
@@ -8,27 +8,34 @@ export default {
   name: 'Asteroid',
   data: function() {
       return {
-          h: 0,
-          w: 0
+          height: 0,
+          width: 0,
+          magnifiedH: 0,
+          magnifiedW: 0
       }
   },
   methods: {
       setDimensions: function(h, w) {
-          this.h = h * 2;
-          this.w = w * 2;
+          this.height = h * 2;
+          this.width = w * 2;
+          this.magnifiedH = this.height;
+          this.magnifiedW = this.width;
+      },
+      applyMagnification: function(multiplier) {
+          this.magnifiedH = this.height * multiplier;
+          this.magnifiedW = this.width * multiplier;
       }
   }
 }
 
-//:style="'height: ' + h + 'px; width: ' + w + 'px; background-size: ' + (h * w) + 'px;'" 
 </script>
 
 <style scoped>
-.dot {
+.ellipse {
     content: "";
     position: absolute;
-    top: 50%;
     left: 60%;
+    top: 20%;
     box-shadow: 0px 0px 30px white;
     height: 25px;
     width: 25px;

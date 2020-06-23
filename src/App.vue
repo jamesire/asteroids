@@ -2,7 +2,7 @@
   <div id="app">
       <Earth />
       <Asteroid ref="asteroid" />
-      <AsteroidGrid :asteroids="asteroids" @toggleAccordian="toggleAccordian" />
+      <AsteroidGrid :asteroids="asteroids" @toggleAccordian="toggleAccordian" @magnifyAsteroids="magnifyAsteroids" />
   </div>
 </template>
 
@@ -87,7 +87,10 @@ export default {
                     return asteroid;
                 })
                 //this.showClass === "" ? this.showClass = "collapse show" : this.showClass = "";
-            }  
+            },
+            magnifyAsteroids: function(mult) {
+              this.$refs.asteroid.applyMagnification(mult);
+            } 
     }
 }
 </script>
