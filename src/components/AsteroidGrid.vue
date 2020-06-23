@@ -3,32 +3,22 @@
     <div class="card"> 
         <h2 class="card-header">{{header}}</h2> 
         <div class="m-2"> 
-            <p>From: <Datepicker :value="fromDate" name="fromDate" /></p>
+            From: <Datepicker :value="fromDate" name="fromDate" />
             To: <Datepicker :value="toDate" name="toDate" />
         </div> 
-        <table class="table" :class="[{'table-dark': false}, 'table-bordered']"> 
-            <thead class="thead-light"> 
-                <th>Name</th> 
-                <!-- <th>Close Approach Date</th> 
-                <th>Miss Distance</th>  -->
-            </thead> 
-            <tbody is="transition-group" name="neo-list" v-cloak> 
-                <tr v-for="(a) in asteroids" 
-                    :key="a.neo_reference_id" 
-                    :class="{highlight: isMissingData(a), 'shadow-sm': true}"> 
-                    <td>{{a.name}}</td> 
-                    <!-- <td>{{getCloseApproachDate(a)}}</td> 
-                    <td> 
-                        <ul v-if="a.close_approach_data.length > 0"> 
-                            <li v-for="(value, key) in a.close_approach_data[0].miss_distance" :key="key"> 
-                                {{key}}: {{value}} 
-                            </li> 
-                        </ul> 
-                    </td>  -->
-                </tr> 
-            </tbody> 
-        </table> 
-    </div>
+        <div class="asteroid-container">
+            <span class="asteroid-iterator" v-for="(asteroid, i) in asteroids" :key="i">
+                <div :class="asteroid.open ? 'asteroid-list open' : 'asteroid-list'"  @click="$emit('toggleAccordian', i)">
+                    <div class="asteroid-name">{{asteroid.name}}</div>
+                    <div class="asteroid-detail">
+                        <b>Diameter:</b> {{asteroid.estimated_diameter.kilometers.estimated_diameter_max}}km x {{asteroid.estimated_diameter.kilometers.estimated_diameter_min}}km
+                            <br />
+                        <b>Approach Date:</b> {{getCloseApproachDate(asteroid)}}
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>  
     </div>
 </template>
 
@@ -41,7 +31,8 @@
             return {            
                 showSummary: true,
                 fromDate: new Date(),
-                toDate: null
+                toDate: null,
+                selectedAstroid: null,
             }
         },  
         components: {
@@ -104,5 +95,65 @@
     }
     .neo-list-enter-active, .neo-list-leave-active {
         transition: all 1s linear;
+    }
+
+    .asteroid-name {
+        padding-bottom: 6px;
+        border-bottom: 1px solid rgba(0, 0, 0, .1);
+    }
+
+    .asteroid-list {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: white;
+        box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2);
+        margin: 5px auto;
+        border-radius: 8px;
+        max-width: 700px;
+    }
+
+    .asteroid-list .asteroid-name{
+        position: relative;
+        color: #3c3c3c;
+        font-size: 16px;
+        transition: all 0.2s linear;
+    }
+
+    .asteroid-list .asteroid-name::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 0px;
+        transform: translateY(-50%) rotate(0deg);
+        width: 30px;
+        height: 30px;
+        background-image: url('../resources/caret.svg');
+        background-position: center;
+        background-size: 12px;
+        transition: all 0.2s linear;
+        background-repeat: no-repeat;
+    }
+
+    .asteroid-list.open .asteroid-name {
+        margin-bottom: 15px;
+    }
+
+    .asteroid-list.open .asteroid-name::after {
+        transform: translateY(-50%) rotate(90deg);
+    }
+
+    .asteroid-detail {
+        color: #3c3c3c;
+        font-size: 14px;
+        opacity: 1;
+        max-height: 0px;
+        overflow-y: hidden;
+        transition: all 0.2s ease-out;
+    }
+
+    .asteroid-list.open .asteroid-detail {
+        opacity: 1;
+        max-height: 1000px;
     }
 </style>
